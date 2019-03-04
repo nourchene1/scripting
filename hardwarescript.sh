@@ -1,12 +1,18 @@
 #!/bin/bash
+hardwareex()
+{
+source e1.sh
+test=1
+while [[ $test == 1 ]]
+do
 
-ask=`zenity --list --title="Hardware Info" --column="0" "CPU" "Memory" "GPU" "Drive" "Help" "Help_cpu"  "Save infos" --width=100 --height=300 --hide-header`
+ask=`zenity --list --title="Hardware Info" --column="0" "CPU" "Memory" "GPU" "Drive" "Save infos" --width=100 --height=300 --hide-header`
 if [ "$?" -eq 1 ]; then
     #On quitte le script
     exit	
 fi
 if [ "$ask" == "CPU" ]; then
-CPU="$(lshw -c cpu)"
+CPU="$(hardwarels)"
     if ret=`zenity --info --title='CPU Info' --text="$CPU"`
 		then
 		echo "CPU"						
@@ -14,7 +20,7 @@ CPU="$(lshw -c cpu)"
 fi
 
 if [ "$ask" == "Memory" ]; then
-   Memory="$(lshw -c memory)"
+   Memory="$(memoryls)"
     if ret=`zenity --info --title='Memory Info' --text="$Memory"`
 		then
 		echo "Memory"						
@@ -22,7 +28,7 @@ if [ "$ask" == "Memory" ]; then
 fi
 
 if [ "$ask" == "GPU" ]; then
-   GPU="$(lshw -c display)"
+   GPU="$(gpuls)"
     if ret=`zenity --info --title='GPU Info' --text="$GPU"`
 		then
 		echo "GPU"						
@@ -30,33 +36,20 @@ if [ "$ask" == "GPU" ]; then
 fi
 
 if [ "$ask" == "Drive" ]; then
-    Drive="$(lshw -c disk)"
+    Drive="$(drivels)"
     if ret=`zenity --info --title='Drive Info' --text="$Drive"`
 		then
 		echo "Drive"						
 	fi
 fi
 
-if [ "$ask" == "Help" ]; then  
-Hel="$(info lshw)"
-    if ret=`zenity --info --title='Help' --no-markup --no-wrap --text="$Hel"`
-		then
-		echo "Help"						
-	fi
-fi
-
-if [ "$ask" == "Help_cpu" ]; then  Help_cpu
-Help="$(info lscpu)"
-    if ret=`zenity --info --title='Help_cpu' --no-markup --no-wrap --text="$Help"`
-		then
-		echo "Help_cpu"						
-	fi
-fi
 if [ "$ask" == "Save infos" ]; then
-Hel="$(lshw -html>Infos.html)"
-    if ret=`zenity --info --title='Help' --no-markup --no-wrap --text="Done"`
+    if ret=`zenity --entry --title='Save infos' --text="Specify file name"`
 		then
+		lshw -html -class cpu -class display -class memory -class disk>"$ret".html
 		echo "Saved"						
 	fi
 fi
-exec ./hardwarescript.sh
+done
+
+}
