@@ -6,7 +6,7 @@ test=1
 while [[ $test == 1 ]]
 do
 
-ask=`zenity --list --title="Help" --column="0" "Help_hw" "Help_cpu" --width=100 --height=300 --hide-header`
+ask=`zenity --list --title="Hardware Info" --column="0" "Help_hw" "Help_cpu" --width=100 --height=300 --hide-header`
 if [ "$?" -eq 1 ]; then
     #On quitte le script
     exit

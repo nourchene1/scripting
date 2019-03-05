@@ -4,36 +4,33 @@ source hardwarescript.sh
 source e1.sh
 source help.sh
 source e2.sh
+source preinstalls.sh
+
+(yadinstall & zenityinstall )| zenity --progress --pulsate --auto-close 
 
 test=1
-yad --image='corebrum1.png' --title="Corebrum"
+yad --image='corebrum1.png' --title="Corebrum" --center --image-align="center"
 while [[ $test == 1 ]]
 do
  
 
-ask=`zenity --list --title="Menu" --column="0" "Hardware" "Help"   --width=100 --height=300 --hide-header`
+ask=`zenity --list --title="Hardware Info" --column="0" "Hardware" "Help"   --width=100 --height=300 --hide-header`
 if [ "$?" -eq 1 ]; then
     #On quitte le script
-    exit	
+    test=-1	
 fi
 if [ "$ask" == "Hardware" ]; then
 Hardware="$(hardwareex)"
-    if ret=`zenity --info --title='Hardware' --text="$Hardware"`
-		then
 		echo "Hardware"						
-	fi
 fi
 
 
 if [ "$ask" == "Help" ]; then  
 Hel="$(heplsss)"
-    if ret=`zenity --info --title='Help' --no-markup --no-wrap --text="$Hel"`
-		then
 		echo "Help"						
-	fi
 fi
 
 
 
 done
-exec ./menu.sh
+

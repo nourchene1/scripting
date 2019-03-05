@@ -44,11 +44,13 @@ if [ "$ask" == "Drive" ]; then
 fi
 
 if [ "$ask" == "Save infos" ]; then
-    if ret=`zenity --entry --title='Save infos' --text="Specify file name"`
+    if FILE=`zenity --file-selection --save` && lshw -html -class cpu -class display -class memory -class disk>"$FILE".html
+    #ret=`zenity --entry --title='Save infos' --text="Specify file name"`
 		then
-		lshw -html -class cpu -class display -class memory -class disk>"$ret".html
+		#lshw -html -class cpu -class display -class memory -class disk>"$ret".html
 		echo "Saved"						
 	fi
+
 fi
 done
 
